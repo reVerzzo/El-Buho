@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # El Buho - Prototipo de Aplicación Móvil
 ## Integrantes del equipo
 1. Perez Hernandez Uriel Alexander
@@ -40,5 +39,4 @@ Accesible desde la esquina superior derecha de la pantalla principal. Aquí el u
 # WireFrame
 ![WireFrame](documentacion/flujo_minimo.jpg)
 =======
-# El-Buho
->>>>>>> 693daa9 (Initial commit)
+
