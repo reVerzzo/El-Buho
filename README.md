@@ -38,3 +38,5 @@ Accesible desde la esquina superior derecha de la pantalla principal. Aquí el u
 
 # WireFrame
 ![WireFrame](documentacion/flujo_minimo.jpg)
+=======
+
