@@ -40,3 +40,6 @@ Accesible desde la esquina superior derecha de la pantalla principal. Aquí el u
 ![WireFrame](documentacion/flujo_minimo.jpg)
 =======
 
+# Accesibilidad
+![Accesibilidad](documentacion/Accesibilidad.jpg)
+
