@@ -56,24 +56,24 @@ La navegación se implementará utilizando las siguientes estructuras de SwiftUI
 
 ### Inicio (Lista de libros)
 
+  ![Inicio](pantalla1.png)
+  
    ➔ Perfil (Acceso desde la barra superior)
-
-   ![Inicio](pantalla1.jpg)
    
-   ![Perfil](pantalla2.jpg)
+   ![Perfil](pantalla2.png)
 
    ➔ Detalle del libro (Al seleccionar un libro en la cuadrícula)
 
-   ![Detalle](pantalla4.jpg)
+   ![Detalle](pantalla4.png)
 
    
 
  ### Búsqueda
    ➔ Detalle del libro (Al seleccionar un resultado o búsqueda reciente)
 
-   ![Busqueda](pantalla5.jpg)
+   ![Busqueda](pantalla5.png)
 
 ### Mis libros (Favoritos)
    ➔ Detalle del libro (Al seleccionar un libro guardado)
 
-   ![Inicio](pantalla3.jpg)
+   ![Inicio](pantalla3.png)
