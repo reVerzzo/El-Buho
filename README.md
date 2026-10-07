@@ -37,7 +37,7 @@ Al tocar cualquier libro en las pantallas anteriores, el usuario accede a esta v
 Accesible desde la esquina superior derecha de la pantalla principal. Aquí el usuario puede gestionar su información personal, correo electrónico y cerrar sesión.
 
 # WireFrame
-![WireFrame](documentacion/flujo_minimo.jpg)
+![WireFrame](docs/flujo_minimo.jpg)
 =======
 
 # Guía de Accesibilidad para Wireframes
