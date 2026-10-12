@@ -9,13 +9,15 @@ import SwiftUI
 
 struct BusquedaView: View {
     
+    @Environment(LibroStore.self) var store
+
     @State private var textoBusqueda: String = ""
     
     let librosRecientes = ["Libro 1", "Libro 2", "Libro 3", "Libro 4"]
     let columnas = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 Colores.fondoPrincipal.ignoresSafeArea()
                 
@@ -37,9 +39,9 @@ struct BusquedaView: View {
                     
                     ScrollView {
                         LazyVGrid(columns: columnas, spacing: 20) {
-                            ForEach(librosRecientes, id: \.self) { libro in
-                                NavigationLink(destination: DetalleLibroView(titulo: libro)) {
-                                    
+                            ForEach(store.recientes) { libro in
+                                NavigationLink(destination: DetalleLibroView(libro: libro)) {
+                                    LibroCelda(titulo: libro.titulo)
                                 }
                             }
                         }
@@ -58,5 +60,6 @@ struct BusquedaView: View {
 struct BusquedaView_Previews: PreviewProvider {
     static var previews: some View {
         BusquedaView()
+            .environment(LibroStore()) 
     }
 }

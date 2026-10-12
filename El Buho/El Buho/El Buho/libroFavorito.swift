@@ -8,19 +8,19 @@
 import SwiftUI
 
 struct FavoritosView: View {
-    let librosFavoritos = ["Libro 1", "Libro 2", "Libro 3"]
+    @Environment(LibroStore.self) var store
     let columnas = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 Colores.fondoPrincipal.ignoresSafeArea()
                 
                 ScrollView {
                     LazyVGrid(columns: columnas, spacing: 20) {
-                        ForEach(librosFavoritos, id: \.self) { libro in
-                            NavigationLink(destination: DetalleLibroView(titulo: libro)) {
-                                
+                        ForEach(store.favoritos) { libro in
+                            NavigationLink(destination: DetalleLibroView(libro: libro)) {
+                                LibroCelda(titulo: libro.titulo)
                             }
                         }
                     }
@@ -30,18 +30,21 @@ struct FavoritosView: View {
             .navigationTitle("Favoritos")
             .navigationBarTitleDisplayMode(.inline)
          
-            .navigationBarItems(trailing: Button(action: {
-             
-            }) {
-                Image(systemName: "pencil")
-                    .foregroundColor(Colores.acentoLujo)
-            })
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                    }) {
+                        Image(systemName: "pencil")
+                            .foregroundColor(Colores.acentoLujo)
+                    }
+                }
+            }
         }
     }
 }
 
 struct FavoritosView_Previews: PreviewProvider {
     static var previews: some View {
-        FavoritosView()
+        FavoritosView().environment(LibroStore())
     }
 }

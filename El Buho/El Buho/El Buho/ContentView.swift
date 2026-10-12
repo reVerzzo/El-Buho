@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
+
+    @Environment(SesionStore.self) var sesionStore
+
     var body: some View {
     
         TabView {
@@ -36,6 +39,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView().environment(LibroStore())
     }
 }

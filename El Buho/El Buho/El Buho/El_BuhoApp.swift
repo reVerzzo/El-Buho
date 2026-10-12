@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct El_BuhoApp: App {
+
+    @State private var libroStore = LibroStore()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView().environment(libroStore)
         }
     }
 }

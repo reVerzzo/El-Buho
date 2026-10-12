@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct DetalleLibroView: View {
+
+    @Environment(LibroStore.self) var store
+
     var titulo: String
     
     var body: some View {
@@ -26,8 +29,9 @@ struct DetalleLibroView: View {
                         )
                     
                     Button(action: {
+                        store.toggleFavorito(libro: libro)
                     }) {
-                        Image(systemName: "heart.fill")
+                        Image(systemName: libro.isFavorito ? "heart.fill" : "heart")
                             .font(.title)
                             .foregroundColor(Colores.contraste)
                             .padding()
@@ -35,18 +39,18 @@ struct DetalleLibroView: View {
                 }
                 
                 VStack(alignment: .leading, spacing: 8) {
-                    Text(titulo)
+                    Text(libro.titulo)
                         .font(.largeTitle)
                         .bold()
                         .foregroundColor(Colores.acentoLujo)
                     
-                    Text("Autor Desconocido")
+                    Text(libro.autor)
                         .font(.subheadline)
                         .foregroundColor(Colores.textoSecundario)
                     
                     Spacer().frame(height: 20)
                     
-                    Text("Descripción")
+                    Text(libro.descripcion)
                         .font(.headline)
                         .foregroundColor(Colores.textoPrincipal)
                     
@@ -65,6 +69,12 @@ struct DetalleLibroView: View {
 
 struct DetalleLibroView_Previews: PreviewProvider {
     static var previews: some View {
-        DetalleLibroView(titulo: "El Secreto del Búho")
+        DetalleLibroView(libro: Libro(
+            titulo: "El Secreto del Búho",
+            autor: "Autor de Prueba",
+            descripcion: "Prueba.",
+            isFavorito: false
+        ))
+        .environment(LibroStore()
     }
 }
