@@ -7,33 +7,31 @@
 
 import SwiftUI
 
-struct DetalleLibroView: View {
+struct BookDetailView: View {
 
-    @Environment(LibroStore.self) var store
-
-    var title: String
+    @Binding var book: Book
     
     var body: some View {
         ZStack {
-            Colores.background.ignoresSafeArea()
+            AppColors.background.ignoresSafeArea()
             
             VStack(alignment: .leading, spacing: 0) {
                 ZStack(alignment: .topTrailing) {
                     Rectangle()
-                        .fill(Colores.accent.opacity(0.4))
+                        .fill(AppColors.accent.opacity(0.4))
                         .frame(height: 250)
                         .overlay(
                             Image(systemName: "photo")
                                 .font(.system(size: 60))
-                                .foregroundColor(Colores.background)
+                                .foregroundColor(AppColors.background)
                         )
                     
                     Button(action: {
-                        store.toggleFavorito(libro: book)
+                        book.isFavorite.toggle()
                     }) {
                         Image(systemName: book.isFavorite ? "heart.fill" : "heart")
                             .font(.title)
-                            .foregroundColor(Colores.contrast)
+                            .foregroundColor(AppColors.contrast)
                             .padding()
                     }
                 }
@@ -42,39 +40,42 @@ struct DetalleLibroView: View {
                     Text(book.title)
                         .font(.largeTitle)
                         .bold()
-                        .foregroundColor(Colores.accent)
+                        .foregroundColor(AppColors.accent)
                     
-                    Text(book.author)
-                        .font(.subheadline)
-                        .foregroundColor(Colores.secondaryText)
+                    if !book.author.isEmpty {
+                        Text(book.author)
+                            .font(.subheadline)
+                            .foregroundColor(AppColors.secondaryText)
+                    }
                     
                     Spacer().frame(height: 20)
                     
-                    Text(book.description)
-                        .font(.headline)
-                        .foregroundColor(Colores.primaryText)
+                    if !book.description.isEmpty {
+                        Text(book.description)
+                            .font(.headline)
+                            .foregroundColor(AppColors.primaryText)
+                    }
                     
                     Text("Este es un libro fascinante lleno de misterio y sabiduría. La interfaz ha sido diseñada utilizando el paradigma declarativo de SwiftUI, aplicando Stacks, Spacers y Modifiers para lograr un layout flexible y adaptable.")
                         .font(.body)
-                        .foregroundColor(Colores.primaryText)
+                        .foregroundColor(AppColors.primaryText)
                 }
                 .padding()
                 
                 Spacer()
             }
         }
-        .tint(Colores.accent)
+        .tint(AppColors.accent)
     }
 }
 
-struct DetalleLibroView_Previews: PreviewProvider {
+struct BookDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        DetalleLibroView(title: Libro(
+        BookDetailView(book: .constant(Book(
             title: "El Secreto del Búho",
             author: "Autor de Prueba",
             description: "Prueba.",
             isFavorite: false
-        ))
-        .environment(LibroStore())
+        )))
     }
 }

@@ -7,27 +7,18 @@
 
 import SwiftUI
 
-struct listaLibro: View {
-    
-    @Environment(LibroStore.self) var store
-    @State private var showProfile = false
-    
-    let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
+struct BookListView: View {
+    @Binding var books: [Book]
+    @State private var isProfilePresented = false
     
     var body: some View {
         NavigationStack {
             ZStack {
-                Colores.background.ignoresSafeArea()
-                
+                AppColors.background.ignoresSafeArea()
+
                 ScrollView {
-                    LazyVGrid(columns: columns, spacing: 20) {
-                        ForEach(store.books) { book in
-                            NavigationLink(destination: DetalleLibroView(title: book)) {
-                                LibroCelda(title: book.title)
-                            }
-                        }
-                    }
-                    .padding()
+                    BookGrid(books: $books, indices: Array(books.indices))
+                        .padding()
                 }
             }
             .navigationTitle("Lista libros")
@@ -36,23 +27,23 @@ struct listaLibro: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        showProfile = true
+                        isProfilePresented = true
                     }) {
                         Image(systemName: "person.crop.circle")
-                            .foregroundColor(Colores.accent)
+                            .foregroundColor(AppColors.accent)
                     }
                 }
             }
 
-            .sheet(isPresented: $showProfile) {
-                PerfilView() 
+            .sheet(isPresented: $isProfilePresented) {
+                ProfileView()
             }
         }
     }
 }
 
-struct InicioView_Previews: PreviewProvider {
+struct BookListView_Previews: PreviewProvider {
     static var previews: some View {
-        listaLibro().environment(LibroStore())
+        BookListView(books: .constant([Book(title: "Libro de prueba")]))
     }
 }

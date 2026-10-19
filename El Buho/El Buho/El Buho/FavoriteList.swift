@@ -7,24 +7,21 @@
 
 import SwiftUI
 
-struct FavoritosView: View {
-    @Environment(LibroStore.self) var store
-    let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
+struct FavoriteListView: View {
+    @Binding var books: [Book]
+
+    private var favoriteIndices: [Int] {
+        books.indices.filter { books[$0].isFavorite }
+    }
     
     var body: some View {
         NavigationStack {
             ZStack {
-                Colores.background.ignoresSafeArea()
-                
+                AppColors.background.ignoresSafeArea()
+
                 ScrollView {
-                    LazyVGrid(columns: columns, spacing: 20) {
-                        ForEach(store.favorites) { book in
-                            NavigationLink(destination: DetalleLibroView(title: book)) {
-                                LibroCelda(title: book.title)
-                            }
-                        }
-                    }
-                    .padding()
+                    BookGrid(books: $books, indices: favoriteIndices)
+                        .padding()
                 }
             }
             .navigationTitle("Favoritos")
@@ -35,7 +32,7 @@ struct FavoritosView: View {
                     Button(action: {
                     }) {
                         Image(systemName: "pencil")
-                            .foregroundColor(Colores.accent)
+                            .foregroundColor(AppColors.accent)
                     }
                 }
             }
@@ -43,8 +40,8 @@ struct FavoritosView: View {
     }
 }
 
-struct FavoritosView_Previews: PreviewProvider {
+struct FavoriteListView_Previews: PreviewProvider {
     static var previews: some View {
-        FavoritosView().environment(LibroStore())
+        FavoriteListView(books: .constant([Book(title: "Libro de prueba")]))
     }
 }

@@ -7,19 +7,19 @@
 
 import SwiftUI
 
-struct LibroCelda: View {
-    var title: String
+struct BookCell: View {
+    let title: String
     
     var body: some View {
         VStack {
         
             Rectangle()
-                .fill(Colores.accent.opacity(0.8))
+                .fill(AppColors.accent.opacity(0.8))
                 .frame(height: 140)
                 .cornerRadius(8)
                 .overlay(
                     Image(systemName: "book.closed")
-                        .foregroundColor(Colores.background)
+                        .foregroundColor(AppColors.background)
                         .font(.title)
                 )
             
@@ -27,17 +27,17 @@ struct LibroCelda: View {
             Text(title)
                 .font(.caption)
                 .fontWeight(.semibold)
-                .foregroundColor(Colores.primaryText)
+                .foregroundColor(AppColors.primaryText)
                 .lineLimit(1) 
         }
     }
 }
 
-struct LibroCelda_Previews: PreviewProvider {
+struct BookCell_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
-            Colores.background.ignoresSafeArea()
-            LibroCelda(title: "Libro de Prueba")
+            AppColors.background.ignoresSafeArea()
+            BookCell(title: "Libro de Prueba")
         }
     }
 }

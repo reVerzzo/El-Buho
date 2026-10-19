@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Colores {
+enum AppColors {
     static let background = Color(red: 10/255, green: 26/255, blue: 49/255)
     static let accent = Color(red: 212/255, green: 175/255, blue: 55/255)
     static let contrast = Color(red: 93/255, green: 25/255, blue: 30/255)
