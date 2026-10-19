@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
 
-    @Environment(SesionStore.self) var sesionStore
+    @Environment(SesionStore.self) var sessionStore
 
     var body: some View {
     
@@ -33,7 +33,7 @@ struct ContentView: View {
                 }
         }
        
-        .tint(Colores.acentoLujo)
+        .tint(Colores.accent)
     }
 }
 

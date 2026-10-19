@@ -1,5 +1,5 @@
 //
-//  detalleLibro.swift
+//  BookDetail.swift
 //  El Buho
 //
 //  Created by Facultad de Contaduría y Administración on 24/09/26.
@@ -11,70 +11,70 @@ struct DetalleLibroView: View {
 
     @Environment(LibroStore.self) var store
 
-    var titulo: String
+    var title: String
     
     var body: some View {
         ZStack {
-            Colores.fondoPrincipal.ignoresSafeArea()
+            Colores.background.ignoresSafeArea()
             
             VStack(alignment: .leading, spacing: 0) {
                 ZStack(alignment: .topTrailing) {
                     Rectangle()
-                        .fill(Colores.acentoLujo.opacity(0.4))
+                        .fill(Colores.accent.opacity(0.4))
                         .frame(height: 250)
                         .overlay(
                             Image(systemName: "photo")
                                 .font(.system(size: 60))
-                                .foregroundColor(Colores.fondoPrincipal)
+                                .foregroundColor(Colores.background)
                         )
                     
                     Button(action: {
-                        store.toggleFavorito(libro: libro)
+                        store.toggleFavorito(libro: book)
                     }) {
-                        Image(systemName: libro.isFavorito ? "heart.fill" : "heart")
+                        Image(systemName: book.isFavorite ? "heart.fill" : "heart")
                             .font(.title)
-                            .foregroundColor(Colores.contraste)
+                            .foregroundColor(Colores.contrast)
                             .padding()
                     }
                 }
                 
                 VStack(alignment: .leading, spacing: 8) {
-                    Text(libro.titulo)
+                    Text(book.title)
                         .font(.largeTitle)
                         .bold()
-                        .foregroundColor(Colores.acentoLujo)
+                        .foregroundColor(Colores.accent)
                     
-                    Text(libro.autor)
+                    Text(book.author)
                         .font(.subheadline)
-                        .foregroundColor(Colores.textoSecundario)
+                        .foregroundColor(Colores.secondaryText)
                     
                     Spacer().frame(height: 20)
                     
-                    Text(libro.descripcion)
+                    Text(book.description)
                         .font(.headline)
-                        .foregroundColor(Colores.textoPrincipal)
+                        .foregroundColor(Colores.primaryText)
                     
                     Text("Este es un libro fascinante lleno de misterio y sabiduría. La interfaz ha sido diseñada utilizando el paradigma declarativo de SwiftUI, aplicando Stacks, Spacers y Modifiers para lograr un layout flexible y adaptable.")
                         .font(.body)
-                        .foregroundColor(Colores.textoPrincipal)
+                        .foregroundColor(Colores.primaryText)
                 }
                 .padding()
                 
                 Spacer()
             }
         }
-        .tint(Colores.acentoLujo)
+        .tint(Colores.accent)
     }
 }
 
 struct DetalleLibroView_Previews: PreviewProvider {
     static var previews: some View {
-        DetalleLibroView(libro: Libro(
-            titulo: "El Secreto del Búho",
-            autor: "Autor de Prueba",
-            descripcion: "Prueba.",
-            isFavorito: false
+        DetalleLibroView(title: Libro(
+            title: "El Secreto del Búho",
+            author: "Autor de Prueba",
+            description: "Prueba.",
+            isFavorite: false
         ))
-        .environment(LibroStore()
+        .environment(LibroStore())
     }
 }

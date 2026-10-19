@@ -1,5 +1,5 @@
 //
-//  libroCelda.swift
+//  BookCell.swift
 //  El Buho
 //
 //  Created by Facultad de Contaduría y Administración on 28/09/26.
@@ -8,26 +8,26 @@
 import SwiftUI
 
 struct LibroCelda: View {
-    var titulo: String
+    var title: String
     
     var body: some View {
         VStack {
         
             Rectangle()
-                .fill(Colores.acentoLujo.opacity(0.8))
+                .fill(Colores.accent.opacity(0.8))
                 .frame(height: 140)
                 .cornerRadius(8)
                 .overlay(
                     Image(systemName: "book.closed")
-                        .foregroundColor(Colores.fondoPrincipal)
+                        .foregroundColor(Colores.background)
                         .font(.title)
                 )
             
            
-            Text(titulo)
+            Text(title)
                 .font(.caption)
                 .fontWeight(.semibold)
-                .foregroundColor(Colores.textoPrincipal)
+                .foregroundColor(Colores.primaryText)
                 .lineLimit(1) 
         }
     }
@@ -36,8 +36,8 @@ struct LibroCelda: View {
 struct LibroCelda_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
-            Colores.fondoPrincipal.ignoresSafeArea()
-            LibroCelda(titulo: "Libro de Prueba")
+            Colores.background.ignoresSafeArea()
+            LibroCelda(title: "Libro de Prueba")
         }
     }
 }

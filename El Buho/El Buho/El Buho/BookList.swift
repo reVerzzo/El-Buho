@@ -1,5 +1,5 @@
 //
-//  listalibro.swift
+//  BookList.swift
 //  El Buho
 //
 //  Created by Facultad de Contaduría y Administración on 28/09/26.
@@ -10,20 +10,20 @@ import SwiftUI
 struct listaLibro: View {
     
     @Environment(LibroStore.self) var store
-    @State private var mostrarPerfil = false
+    @State private var showProfile = false
     
-    let columnas = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
+    let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     
     var body: some View {
         NavigationStack {
             ZStack {
-                Colores.fondoPrincipal.ignoresSafeArea()
+                Colores.background.ignoresSafeArea()
                 
                 ScrollView {
-                    LazyVGrid(columns: columnas, spacing: 20) {
-                        ForEach(store.libros) { libro in
-                            NavigationLink(destination: DetalleLibroView(libro: libro)) {
-                                LibroCelda(titulo: libro.titulo)
+                    LazyVGrid(columns: columns, spacing: 20) {
+                        ForEach(store.books) { book in
+                            NavigationLink(destination: DetalleLibroView(title: book)) {
+                                LibroCelda(title: book.title)
                             }
                         }
                     }
@@ -36,15 +36,15 @@ struct listaLibro: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        mostrarPerfil = true
+                        showProfile = true
                     }) {
                         Image(systemName: "person.crop.circle")
-                            .foregroundColor(Colores.acentoLujo)
+                            .foregroundColor(Colores.accent)
                     }
                 }
             }
 
-            .sheet(isPresented: $mostrarPerfil) {
+            .sheet(isPresented: $showProfile) {
                 PerfilView() 
             }
         }
