@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct El_BuhoApp: App {
+
     var body: some Scene {
         WindowGroup {
             ContentView()

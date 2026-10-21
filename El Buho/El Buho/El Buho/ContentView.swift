@@ -8,29 +8,36 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var books = [
+        Book(title: "Libro 1"),
+        Book(title: "Libro 2"),
+        Book(title: "Libro 3"),
+        Book(title: "Libro 4")
+    ]
+
     var body: some View {
     
         TabView {
-            listaLibro()
+            BookListView(books: $books)
                 .tabItem {
                     Image(systemName: "house.fill")
                     Text("Inicio")
                 }
             
-            BusquedaView()
+            SearchBookView(books: $books)
                 .tabItem {
                     Image(systemName: "magnifyingglass")
                     Text("Buscar")
                 }
             
-            FavoritosView()
+            FavoriteListView(books: $books)
                 .tabItem {
                     Image(systemName: "book.fill")
                     Text("Mis libros")
                 }
         }
        
-        .tint(Colores.acentoLujo)
+        .tint(AppColors.accent)
     }
 }
 
