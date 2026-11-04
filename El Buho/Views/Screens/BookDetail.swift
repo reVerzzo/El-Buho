@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct BookDetailView: View {
-
     @Binding var book: Book
+    
+    @Environment(\.modelContext) private var modelContext
     
     var body: some View {
         ZStack {
@@ -27,7 +29,7 @@ struct BookDetailView: View {
                         )
                     
                     Button(action: {
-                        book.isFavorite.toggle()
+                        toggleFavoritePersistence()
                     }) {
                         Image(systemName: book.isFavorite ? "heart.fill" : "heart")
                             .font(.title)
@@ -42,21 +44,17 @@ struct BookDetailView: View {
                         .bold()
                         .foregroundColor(AppColors.accent)
                     
-                    if !book.author.isEmpty {
-                        Text(book.author)
-                            .font(.subheadline)
-                            .foregroundColor(AppColors.secondaryText)
-                    }
+                    Text(book.author)
+                        .font(.subheadline)
+                        .foregroundColor(AppColors.secondaryText)
                     
                     Spacer().frame(height: 20)
                     
-                    if !book.description.isEmpty {
-                        Text(book.description)
-                            .font(.headline)
-                            .foregroundColor(AppColors.primaryText)
-                    }
+                    Text("Descripción")
+                        .font(.headline)
+                        .foregroundColor(AppColors.primaryText)
                     
-                    Text("Este es un libro fascinante lleno de misterio y sabiduría. La interfaz ha sido diseñada utilizando el paradigma declarativo de SwiftUI, aplicando Stacks, Spacers y Modifiers para lograr un layout flexible y adaptable.")
+                    Text(book.synopsis)
                         .font(.body)
                         .foregroundColor(AppColors.primaryText)
                 }
@@ -67,15 +65,23 @@ struct BookDetailView: View {
         }
         .tint(AppColors.accent)
     }
-}
-
-struct BookDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        BookDetailView(book: .constant(Book(
-            title: "El Secreto del Búho",
-            author: "Autor de Prueba",
-            description: "Prueba.",
-            isFavorite: false
-        )))
+    
+    private func toggleFavoritePersistence() {
+        let service = BookService(context: modelContext)
+        book.isFavorite.toggle()
+        
+        if book.isFavorite {
+            // Si no existe ya en la base de datos, lo guardamos
+            if service.searchBook(title: book.title)?.isEmpty ?? true {
+                service.saveBook(book: book)
+            }
+        } else {
+            // Si se quita de favoritos, lo buscamos en SwiftData y lo eliminamos
+            if let savedBooks = service.searchBook(title: book.title) {
+                for savedBook in savedBooks {
+                    service.removeBook(book: savedBook)
+                }
+            }
+        }
     }
 }

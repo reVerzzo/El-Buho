@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct El_BuhoApp: App {
@@ -14,5 +15,7 @@ struct El_BuhoApp: App {
         WindowGroup {
             ContentView()
         }
+        // Inicializa la base de datos local para el modelo Book
+        .modelContainer(for: Book.self)
     }
 }
