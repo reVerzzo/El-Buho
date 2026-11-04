@@ -11,7 +11,6 @@ import SwiftData
 struct BookDetailView: View {
     @Binding var book: Book
     
-    // Obtenemos el contexto de SwiftData como en el ContentView del profesor
     @Environment(\.modelContext) private var modelContext
     
     var body: some View {
@@ -67,7 +66,6 @@ struct BookDetailView: View {
         .tint(AppColors.accent)
     }
     
-    // Función que conecta el botón con el BookService del profesor
     private func toggleFavoritePersistence() {
         let service = BookService(context: modelContext)
         book.isFavorite.toggle()

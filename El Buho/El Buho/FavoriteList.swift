@@ -5,18 +5,12 @@
 //  Created by Facultad de Contaduría y Administración on 24/09/26.
 //
 
-//
-//  FavoriteList.swift
-//  El Buho
-//
-
 import SwiftUI
 import SwiftData
 
 struct FavoriteListView: View {
     @Binding var books: [Book]
     
-    // Contexto de SwiftData como lo declaró el profesor
     @Environment(\.modelContext) private var modelContext
     
     // Estado local para almacenar los favoritos traídos desde SwiftData
@@ -28,7 +22,6 @@ struct FavoriteListView: View {
                 AppColors.background.ignoresSafeArea()
 
                 ScrollView {
-                    // Mostramos la cuadrícula con los libros persistidos en SwiftData
                     BookGrid(
                         books: $persistedFavorites,
                         indices: Array(persistedFavorites.indices)
@@ -47,7 +40,6 @@ struct FavoriteListView: View {
                     }
                 }
             }
-            // Cada vez que entramos a la pestaña, cargamos desde SwiftData usando BookService
             .onAppear {
                 loadFavoritesFromDatabase()
             }

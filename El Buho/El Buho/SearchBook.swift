@@ -13,13 +13,7 @@ struct SearchBookView: View {
     @State private var searchText: String = ""
 
     private var matchingIndices: [Int] {
-        let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !query.isEmpty else { return Array(books.indices) }
-
-        return books.indices.filter { index in
-            books[index].title.localizedCaseInsensitiveContains(query)
-                || books[index].author.localizedCaseInsensitiveContains(query)
-        }
+        BookSearcher.filterIndices(for: books, with: searchText)
     }
     
     var body: some View {
