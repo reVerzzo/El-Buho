@@ -48,15 +48,26 @@ struct SearchBookView: View {
                         Spacer()
                         
                     } else if let errorMessage = viewModel.errorMessage {
-                        Spacer()
-                        HStack {
                             Spacer()
+                        VStack(spacing: 16) {
                             Text(errorMessage)
                                 .foregroundColor(.red)
                                 .multilineTextAlignment(.center)
-                                .padding()
-                            Spacer()
+                                .padding(.horizontal)
+                            
+                            Button(action: {
+                                viewModel.performSearch()
+                            }) {
+                                Text("Reintentar")
+                                    .fontWeight(.bold)
+                                    .foregroundColor(AppColors.background)
+                                    .padding(.horizontal, 24)
+                                    .padding(.vertical, 12)
+                                    .background(AppColors.accent)
+                                    .cornerRadius(8)
+                            }
                         }
+
                         Spacer()
                         
                     } else if viewModel.searchResults.isEmpty && !viewModel.searchText.isEmpty {
