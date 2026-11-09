@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BookListView: View {
     @Binding var books: [Book]
-    @State private var isProfilePresented = false
+    @State private var viewModel = BookListViewModel()
     
     var body: some View {
         NavigationStack {
@@ -27,7 +27,7 @@ struct BookListView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        isProfilePresented = true
+                        viewModel.toggleProfilePresentation()
                     }) {
                         Image(systemName: "person.crop.circle")
                             .foregroundColor(AppColors.accent)
@@ -35,15 +35,9 @@ struct BookListView: View {
                 }
             }
 
-            .sheet(isPresented: $isProfilePresented) {
+            .sheet(isPresented: Bindable(viewModel).isProfilePresented) {
                 ProfileView()
             }
         }
-    }
-}
-
-struct BookListView_Previews: PreviewProvider {
-    static var previews: some View {
-        BookListView(books: .constant([Book(title: "Libro de prueba")]))
     }
 }
