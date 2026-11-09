@@ -10,11 +10,7 @@ import SwiftUI
 struct SearchBookView: View {
     @Binding var books: [Book]
 
-    @State private var searchText: String = ""
-
-    private var matchingIndices: [Int] {
-        BookSearcher.filterIndices(for: books, with: searchText)
-    }
+    @State private var viewModel = SearchBookViewModel()
     
     var body: some View {
         NavigationStack {
@@ -23,23 +19,65 @@ struct SearchBookView: View {
                 
                 VStack(alignment: .leading) {
                     
-                    TextField("Buscar...", text: $searchText)
+                    TextField("Buscar en OpenLibrary...", text: $viewModel.searchText)
                         .padding()
                         .background(Color.white.opacity(0.1))
                         .cornerRadius(10)
                         .foregroundColor(AppColors.primaryText)
                         .padding(.horizontal)
                         .padding(.top)
+                        .onSubmit {
+                            viewModel.performSearch()
+                        }
                     
-                    Text("Recientes:")
+                    Text("Resultados:")
                         .font(.headline)
                         .foregroundColor(AppColors.primaryText)
                         .padding(.horizontal)
                         .padding(.top, 10)
                     
-                    ScrollView {
-                        BookGrid(books: $books, indices: matchingIndices)
+                    if viewModel.isLoading {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            ProgressView("Descargando libros...")
+                                .tint(AppColors.accent)
+                                .foregroundColor(AppColors.primaryText)
+                            Spacer()
+                        }
+                        Spacer()
+                        
+                    } else if let errorMessage = viewModel.errorMessage {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            Text(errorMessage)
+                                .foregroundColor(.red)
+                                .multilineTextAlignment(.center)
+                                .padding()
+                            Spacer()
+                        }
+                        Spacer()
+                        
+                    } else if viewModel.searchResults.isEmpty && !viewModel.searchText.isEmpty {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            Text("No se encontraron resultados.")
+                                .foregroundColor(AppColors.secondaryText)
+                            Spacer()
+                        }
+                        Spacer()
+                        
+                    } else {
+                        ScrollView {
+                            @Bindable var bindableViewModel = viewModel
+                            BookGrid(
+                                books: $bindableViewModel.searchResults,
+                                indices: Array(viewModel.searchResults.indices)
+                            )
                             .padding()
+                        }
                     }
                     
                     Spacer()
@@ -53,6 +91,6 @@ struct SearchBookView: View {
 
 struct SearchBookView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchBookView(books: .constant([Book(title: "Libro de prueba")]))
+        SearchBookView(books: .constant([Book.bookTest]))
     }
 }
