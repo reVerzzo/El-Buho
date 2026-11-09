@@ -9,9 +9,11 @@ import SwiftUI
 import SwiftData
 
 struct BookDetailView: View {
-    @Binding var book: Book
+    @State private var viewModel: BookDetailViewModel
     
-    @Environment(\.modelContext) private var modelContext
+    init(book: Book, modelContext: ModelContext) {
+        _viewModel = State(initialValue: BookDetailViewModel(book: book, modelContext: modelContext))
+    }
     
     var body: some View {
         ZStack {
@@ -29,9 +31,9 @@ struct BookDetailView: View {
                         )
                     
                     Button(action: {
-                        toggleFavoritePersistence()
+                        viewModel.toggleFavoritePersistence()
                     }) {
-                        Image(systemName: book.isFavorite ? "heart.fill" : "heart")
+                        Image(systemName: viewModel.book.isFavorite ? "heart.fill" : "heart")
                             .font(.title)
                             .foregroundColor(AppColors.contrast)
                             .padding()
@@ -39,12 +41,12 @@ struct BookDetailView: View {
                 }
                 
                 VStack(alignment: .leading, spacing: 8) {
-                    Text(book.title)
+                    Text(viewModel.book.title)
                         .font(.largeTitle)
                         .bold()
                         .foregroundColor(AppColors.accent)
                     
-                    Text(book.author)
+                    Text(viewModel.book.author)
                         .font(.subheadline)
                         .foregroundColor(AppColors.secondaryText)
                     
@@ -54,7 +56,7 @@ struct BookDetailView: View {
                         .font(.headline)
                         .foregroundColor(AppColors.primaryText)
                     
-                    Text(book.synopsis)
+                    Text(viewModel.book.synopsis)
                         .font(.body)
                         .foregroundColor(AppColors.primaryText)
                 }
@@ -64,24 +66,5 @@ struct BookDetailView: View {
             }
         }
         .tint(AppColors.accent)
-    }
-    
-    private func toggleFavoritePersistence() {
-        let service = BookService(context: modelContext)
-        book.isFavorite.toggle()
-        
-        if book.isFavorite {
-            // Si no existe ya en la base de datos, lo guardamos
-            if service.searchBook(title: book.title)?.isEmpty ?? true {
-                service.saveBook(book: book)
-            }
-        } else {
-            // Si se quita de favoritos, lo buscamos en SwiftData y lo eliminamos
-            if let savedBooks = service.searchBook(title: book.title) {
-                for savedBook in savedBooks {
-                    service.removeBook(book: savedBook)
-                }
-            }
-        }
     }
 }
