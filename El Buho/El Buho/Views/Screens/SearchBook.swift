@@ -10,7 +10,7 @@ import SwiftUI
 struct SearchBookView: View {
     @Binding var books: [Book]
 
-    @State private var viewModel = SearchBookViewModel()
+    @State private var viewModel = BookSearcher()
     
     var body: some View {
         NavigationStack {

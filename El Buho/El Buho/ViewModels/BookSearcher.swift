@@ -4,28 +4,27 @@ import SwiftData
 
 @Observable
 class BookSearcher {
+    var searchText: String = ""
     var searchResults: [Book] = []
     var isLoading: Bool = false
     var errorMessage: String? = nil
     
     private let apiService = OpenLibraryService()
     
-    func performSearch(query: String) {
-        let cleanQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
+    func performSearch() {
+        let cleanQuery = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !cleanQuery.isEmpty else {
-            searchResults = [] ¿
+            searchResults = []
+            errorMessage = nil
             return
         }
         
-        // Iniciamos el estado de carga
         isLoading = true
         errorMessage = nil
         
-        // Tarea asíncrona
         Task {
             do {
                 let results = try await apiService.searchBooks(query: cleanQuery)
-¿
                 await MainActor.run {
                     self.searchResults = results
                     self.isLoading = false
