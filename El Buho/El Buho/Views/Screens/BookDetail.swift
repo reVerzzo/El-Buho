@@ -6,10 +6,14 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct BookDetailView: View {
-
-    @Binding var book: Book
+    @State private var viewModel: BookDetailViewModel
+    
+    init(book: Book, modelContext: ModelContext) {
+        _viewModel = State(initialValue: BookDetailViewModel(book: book, modelContext: modelContext))
+    }
     
     var body: some View {
         ZStack {
@@ -27,9 +31,9 @@ struct BookDetailView: View {
                         )
                     
                     Button(action: {
-                        book.isFavorite.toggle()
+                        viewModel.toggleFavoritePersistence()
                     }) {
-                        Image(systemName: book.isFavorite ? "heart.fill" : "heart")
+                        Image(systemName: viewModel.book.isFavorite ? "heart.fill" : "heart")
                             .font(.title)
                             .foregroundColor(AppColors.contrast)
                             .padding()
@@ -37,26 +41,22 @@ struct BookDetailView: View {
                 }
                 
                 VStack(alignment: .leading, spacing: 8) {
-                    Text(book.title)
+                    Text(viewModel.book.title)
                         .font(.largeTitle)
                         .bold()
                         .foregroundColor(AppColors.accent)
                     
-                    if !book.author.isEmpty {
-                        Text(book.author)
-                            .font(.subheadline)
-                            .foregroundColor(AppColors.secondaryText)
-                    }
+                    Text(viewModel.book.author)
+                        .font(.subheadline)
+                        .foregroundColor(AppColors.secondaryText)
                     
                     Spacer().frame(height: 20)
                     
-                    if !book.description.isEmpty {
-                        Text(book.description)
-                            .font(.headline)
-                            .foregroundColor(AppColors.primaryText)
-                    }
+                    Text("Descripción")
+                        .font(.headline)
+                        .foregroundColor(AppColors.primaryText)
                     
-                    Text("Este es un libro fascinante lleno de misterio y sabiduría. La interfaz ha sido diseñada utilizando el paradigma declarativo de SwiftUI, aplicando Stacks, Spacers y Modifiers para lograr un layout flexible y adaptable.")
+                    Text(viewModel.book.synopsis)
                         .font(.body)
                         .foregroundColor(AppColors.primaryText)
                 }
@@ -66,16 +66,5 @@ struct BookDetailView: View {
             }
         }
         .tint(AppColors.accent)
-    }
-}
-
-struct BookDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        BookDetailView(book: .constant(Book(
-            title: "El Secreto del Búho",
-            author: "Autor de Prueba",
-            description: "Prueba.",
-            isFavorite: false
-        )))
     }
 }

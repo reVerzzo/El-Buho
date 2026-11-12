@@ -6,11 +6,27 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		A258CBD030901BD200693032 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A26149FB3065E29300C2A1DD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A2614A023065E29300C2A1DD;
+			remoteInfo = "El Buho";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		A258CBCC30901BD200693032 /* El BuhoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "El BuhoTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2614A033065E29300C2A1DD /* El Buho.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "El Buho.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		A258CBCD30901BD200693032 /* El BuhoTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "El BuhoTests";
+			sourceTree = "<group>";
+		};
 		A2614A053065E29300C2A1DD /* El Buho */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "El Buho";
@@ -19,6 +35,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		A258CBC930901BD200693032 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A2614A003065E29300C2A1DD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -33,6 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				A2614A053065E29300C2A1DD /* El Buho */,
+				A258CBCD30901BD200693032 /* El BuhoTests */,
 				A2614A043065E29300C2A1DD /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				A2614A033065E29300C2A1DD /* El Buho.app */,
+				A258CBCC30901BD200693032 /* El BuhoTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,6 +73,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		A258CBCB30901BD200693032 /* El BuhoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A258CBD230901BD200693032 /* Build configuration list for PBXNativeTarget "El BuhoTests" */;
+			buildPhases = (
+				A258CBC830901BD200693032 /* Sources */,
+				A258CBC930901BD200693032 /* Frameworks */,
+				A258CBCA30901BD200693032 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A258CBD130901BD200693032 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A258CBCD30901BD200693032 /* El BuhoTests */,
+			);
+			name = "El BuhoTests";
+			packageProductDependencies = (
+			);
+			productName = "El BuhoTests";
+			productReference = A258CBCC30901BD200693032 /* El BuhoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		A2614A023065E29300C2A1DD /* El Buho */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A2614A0E3065E29600C2A1DD /* Build configuration list for PBXNativeTarget "El Buho" */;
@@ -80,6 +128,10 @@
 				LastSwiftUpdateCheck = 2660;
 				LastUpgradeCheck = 2660;
 				TargetAttributes = {
+					A258CBCB30901BD200693032 = {
+						CreatedOnToolsVersion = 26.6;
+						TestTargetID = A2614A023065E29300C2A1DD;
+					};
 					A2614A023065E29300C2A1DD = {
 						CreatedOnToolsVersion = 26.6;
 					};
@@ -100,11 +152,19 @@
 			projectRoot = "";
 			targets = (
 				A2614A023065E29300C2A1DD /* El Buho */,
+				A258CBCB30901BD200693032 /* El BuhoTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		A258CBCA30901BD200693032 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A2614A013065E29300C2A1DD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -115,6 +175,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		A258CBC830901BD200693032 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A26149FF3065E29300C2A1DD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -124,7 +191,55 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		A258CBD130901BD200693032 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A2614A023065E29300C2A1DD /* El Buho */;
+			targetProxy = A258CBD030901BD200693032 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		A258CBD330901BD200693032 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "mx.unam.fca.inscripciones.El-BuhoTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/El Buho.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/El Buho";
+			};
+			name = Debug;
+		};
+		A258CBD430901BD200693032 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "mx.unam.fca.inscripciones.El-BuhoTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/El Buho.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/El Buho";
+			};
+			name = Release;
+		};
 		A2614A0C3065E29600C2A1DD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -309,6 +424,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A258CBD230901BD200693032 /* Build configuration list for PBXNativeTarget "El BuhoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A258CBD330901BD200693032 /* Debug */,
+				A258CBD430901BD200693032 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A26149FE3065E29300C2A1DD /* Build configuration list for PBXProject "El Buho" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -6,13 +6,13 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct FavoriteListView: View {
     @Binding var books: [Book]
+    @Environment(\.modelContext) private var modelContext
 
-    private var favoriteIndices: [Int] {
-        books.indices.filter { books[$0].isFavorite }
-    }
+    @State private var viewModel: FavoriteListViewModel?
     
     var body: some View {
         NavigationStack {
@@ -20,13 +20,20 @@ struct FavoriteListView: View {
                 AppColors.background.ignoresSafeArea()
 
                 ScrollView {
-                    BookGrid(books: $books, indices: favoriteIndices)
+                    if let viewModel = viewModel {
+                         BookGrid(
+                            // Enlazamos directamente a la propiedad del ViewModel
+                            books: Bindable(viewModel).persistedFavorites,
+                            indices: Array(viewModel.persistedFavorites.indices)
+                        )
                         .padding()
+                    } else {
+                        ProgressView()
+                    }
                 }
             }
             .navigationTitle("Favoritos")
             .navigationBarTitleDisplayMode(.inline)
-         
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
@@ -36,12 +43,12 @@ struct FavoriteListView: View {
                     }
                 }
             }
+            .onAppear {
+                if viewModel == nil {
+                     viewModel = FavoriteListViewModel(modelContext: modelContext)
+                }
+                viewModel?.loadFavoritesFromDatabase(globalBooks: $books)
+            }
         }
-    }
-}
-
-struct FavoriteListView_Previews: PreviewProvider {
-    static var previews: some View {
-        FavoriteListView(books: .constant([Book(title: "Libro de prueba")]))
     }
 }
