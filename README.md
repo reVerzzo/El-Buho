@@ -107,3 +107,13 @@ A continuación se detalla la configuración de accesibilidad para cada elemento
 *   **Bloque de descripción (Sinopsis)**
     *   **Configuración:** Configurar como `Texto estático` (`.staticText`).
     *   **VoiceOver dirá:** *(Comenzará a leer en voz alta el contenido completo de la sinopsis sin añadir palabras extra).*
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-11-12 at 16 41 07" src="https://github.com/user-attachments/assets/ce619bbf-55ac-40eb-a1d1-5247f14685ee" />
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-11-12 at 16 45 53" src="https://github.com/user-attachments/assets/705b88c1-1742-4b20-a6b9-0e1dc2fc056a" />
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-11-12 at 16 45 43" src="https://github.com/user-attachments/assets/c88e441f-9609-4a0e-8608-a743e09f6862" />
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-11-12 at 16 45 37" src="https://github.com/user-attachments/assets/37cce8bb-7701-43b7-b44e-e491c760b8ee" />
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-11-12 at 16 45 12" src="https://github.com/user-attachments/assets/2d76074b-f663-42ba-afdd-305551899615" />
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-11-12 at 16 44 33" src="https://github.com/user-attachments/assets/f579f9c2-ee04-4544-91f6-5fc2c5b332b6" />
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-11-12 at 16 44 23" src="https://github.com/user-attachments/assets/f98dc194-87a5-4704-bb5c-2698755cf8ac" />
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-11-12 at 16 43 05" src="https://github.com/user-attachments/assets/c39bfa25-3bca-4d10-aac1-d98d8bd8ab20" />
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-11-12 at 16 42 57" src="https://github.com/user-attachments/assets/d11d22a5-3e1c-48a3-a9d4-5840c4610fca" />
+
