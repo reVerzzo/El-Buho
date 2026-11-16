@@ -4,7 +4,6 @@
 2. Corona Baez Fabrizzio Alessandro
 ## Descripción del Proyecto
 
-Este proyecto ilustra el flujo de usuario principal de la aplicación, desde la autenticación del usuario hasta la visualización de los detalles de un libro específico.
 ---
 
 ## Flujo de Usuario y Pantallas
