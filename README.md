@@ -11,33 +11,32 @@ Este proyecto ilustra el flujo de usuario principal de la aplicación, desde la 
 
 A continuación se detalla el recorrido principal del usuario dentro de la aplicación:
 
-### 1. Inicio de Sesión (Login)
-La pantalla de bienvenida donde los usuarios existentes pueden acceder a su cuenta. Incluye opciones para inicio de sesión tradicional (correo y contraseña) y métodos de inicio de sesión social (Apple/Google).
-
-
-### 2. Registro
-Si el usuario no tiene cuenta, puede acceder a esta pantalla desde el Login para crear una nueva proporcionando sus datos básicos.
-
-
-### 3. Pantalla Principal (Lista de Libros)
+### 1. Pantalla Principal (Lista de Libros)
 Una vez autenticado, el usuario llega al "Home", donde se presenta una cuadrícula con el catálogo de libros disponibles. Cuenta con una barra de navegación inferior para acceder rápidamente a las secciones clave de la app.
+<img width="736" height="1600" alt="inicio" src="https://github.com/user-attachments/assets/455e9b94-34fb-43bb-8e5f-eee795b3fb54" />
+
+#### 1.1 Secciones del incio.
+Al tocar en el título de la seccioón del inicio se despliega una lista de libros relacionados.
+<img width="736" height="1600" alt="image" src="https://github.com/user-attachments/assets/7328795b-dd6a-45e1-ab4f-35daeed24951" />
 
 
-### 4. Búsqueda
+### 2. Búsqueda
 Accesible desde la barra de navegación inferior. Permite a los usuarios buscar títulos o autores específicos de manera rápida, mostrando resultados filtrados en formato de cuadrícula.
+<img width="736" height="1600" alt="image" src="https://github.com/user-attachments/assets/5aa0e16a-7e6e-4cff-839f-e3f981ec3ffd" />
+<img width="736" height="1600" alt="image" src="https://github.com/user-attachments/assets/df649f9c-d112-4d1c-b028-db947469a398" />
 
-
-### 5. Favoritos
+### 3. Favoritos
 Sección dedicada donde los usuarios pueden consultar los libros que han marcado como favoritos para leerlos más tarde o tenerlos a mano.
+<img width="736" height="1600" alt="image" src="https://github.com/user-attachments/assets/04e92dd4-2c3b-4bcf-8d15-7df9dbedcfad" />
 
-### 6. Detalle del Libro
-Al tocar cualquier libro en las pantallas anteriores, el usuario accede a esta vista. Muestra la portada en gran tamaño, el título, el autor, una sinopsis detallada y los llamados a la acción (como "Comprar" o "Añadir a Favoritos").
+### 4. Detalle del Libro
+Al tocar cualquier libro en las pantallas anteriores, el usuario accede a esta vista. Muestra la portada en gran tamaño, el título, el autor, una sinopsis detallada y los llamados a la acción ("Añadir a Favoritos").
+<img width="736" height="1600" alt="image" src="https://github.com/user-attachments/assets/612436ba-45b5-44e0-b254-e290d1528a62" />
 
-### 7. Perfil de Usuario
-Accesible desde la esquina superior derecha de la pantalla principal. Aquí el usuario puede gestionar su información personal, correo electrónico y cerrar sesión.
+#### 4.1 Pop-up del Autor.
+Al tocar en el nombre del autor se despliega un pop-up que muestra una biografía corta del autor del libro.
+<img width="736" height="1600" alt="image" src="https://github.com/user-attachments/assets/08ccb603-362c-4ede-bd38-f5bf01e8f94b" />
 
-# WireFrame
-![WireFrame](docs/flujo_minimo.jpg)
 =======
 
 # Guía de Accesibilidad para Wireframes
@@ -107,13 +106,5 @@ A continuación se detalla la configuración de accesibilidad para cada elemento
 *   **Bloque de descripción (Sinopsis)**
     *   **Configuración:** Configurar como `Texto estático` (`.staticText`).
     *   **VoiceOver dirá:** *(Comenzará a leer en voz alta el contenido completo de la sinopsis sin añadir palabras extra).*
-<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-11-12 at 16 41 07" src="https://github.com/user-attachments/assets/ce619bbf-55ac-40eb-a1d1-5247f14685ee" />
-<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-11-12 at 16 45 53" src="https://github.com/user-attachments/assets/705b88c1-1742-4b20-a6b9-0e1dc2fc056a" />
-<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-11-12 at 16 45 43" src="https://github.com/user-attachments/assets/c88e441f-9609-4a0e-8608-a743e09f6862" />
-<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-11-12 at 16 45 37" src="https://github.com/user-attachments/assets/37cce8bb-7701-43b7-b44e-e491c760b8ee" />
-<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-11-12 at 16 45 12" src="https://github.com/user-attachments/assets/2d76074b-f663-42ba-afdd-305551899615" />
-<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-11-12 at 16 44 33" src="https://github.com/user-attachments/assets/f579f9c2-ee04-4544-91f6-5fc2c5b332b6" />
-<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-11-12 at 16 44 23" src="https://github.com/user-attachments/assets/f98dc194-87a5-4704-bb5c-2698755cf8ac" />
-<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-11-12 at 16 43 05" src="https://github.com/user-attachments/assets/c39bfa25-3bca-4d10-aac1-d98d8bd8ab20" />
-<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 Pro - 2026-11-12 at 16 42 57" src="https://github.com/user-attachments/assets/d11d22a5-3e1c-48a3-a9d4-5840c4610fca" />
+
 
