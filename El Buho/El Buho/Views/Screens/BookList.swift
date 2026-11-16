@@ -9,22 +9,13 @@ import SwiftUI
 import SwiftData
 
 struct BookListView: View {
-    @Binding var books: [Book]
     @Environment(\.modelContext) private var modelContext
     @State private var viewModel = BookListViewModel()
     
     var body: some View {
         NavigationStack {
             ScrollView(.vertical, showsIndicators: false) {
-                if viewModel.isLoading && viewModel.booksByCategory.isEmpty {
-                    VStack(spacing: 14) {
-                        ProgressView("Cargando catálogo...")
-                            .tint(AppColors.accent)
-                            .foregroundColor(AppColors.primaryText)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.top, 120)
-                } else if let error = viewModel.errorMessage, viewModel.booksByCategory.isEmpty {
+                if let error = viewModel.errorMessage, viewModel.booksByCategory.isEmpty {
                     VStack(spacing: 12) {
                         Text(error)
                             .foregroundColor(.red)
@@ -33,9 +24,7 @@ struct BookListView: View {
                         
                         Button("Reintentar") {
                             Task {
-                                await viewModel.retry(modelContext: modelContext) { nuevos in
-                                    books = nuevos
-                                }
+                                await viewModel.retry(modelContext: modelContext)
                             }
                         }
                         .foregroundColor(AppColors.accent)
@@ -47,9 +36,7 @@ struct BookListView: View {
                         ForEach(BookCategory.allCases) { category in
                             categorySection(category: category)
                                 .task {
-                                    await viewModel.loadCategoryIfNeeded(category, modelContext: modelContext) { nuevos in
-                                        books = nuevos
-                                    }
+                                    await viewModel.loadCategoryIfNeeded(category, modelContext: modelContext)
                                 }
                         }
                     }
@@ -58,12 +45,10 @@ struct BookListView: View {
                 }
             }
             .background(AppColors.background.ignoresSafeArea())
-            .navigationTitle("Lista libros")
+            .navigationTitle("Inicio")
             .navigationBarTitleDisplayMode(.large)
             .task {
-                await viewModel.loadBooksIfNeeded(modelContext: modelContext) { nuevos in
-                    books = nuevos
-                }
+                await viewModel.loadBooksIfNeeded(modelContext: modelContext)
             }
         }
     }

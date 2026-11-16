@@ -5,10 +5,19 @@ import SwiftData
 @Observable
 class BookDetailViewModel {
     var book: Book
+    var coverURLs: [URL] = []
     var isLoadingDescription: Bool = false
+    
+    var isAuthorSheetPresented: Bool = false
+    var authorDetail: AuthorDetail? = nil
+    var isLoadingAuthor: Bool = false
+    
+    var isReaderPresented: Bool = false
+    
     private var modelContext: ModelContext
     private let apiService = OpenLibraryService()
-    private var hasLoadedDescription: Bool = false
+    private var hasLoadedWorkDetails: Bool = false
+    private var hasLoadedAuthor: Bool = false
     
     init(book: Book, modelContext: ModelContext) {
         let service = BookService(context: modelContext)
@@ -16,19 +25,41 @@ class BookDetailViewModel {
         book.isFavorite = isSaved
         self.book = book
         self.modelContext = modelContext
+        
+        if let primaryURL = book.coverURL ?? book.largeCoverURL {
+            self.coverURLs = [primaryURL]
+        }
     }
     
     func loadDescriptionIfNeeded() async {
-        guard !hasLoadedDescription, let workKey = book.workKey else { return }
-        hasLoadedDescription = true
+        guard !hasLoadedWorkDetails, let workKey = book.workKey else { return }
+        hasLoadedWorkDetails = true
         
         let isPlaceholder = book.synopsis.hasPrefix("Publicado por primera vez") || book.synopsis == "Sin descripción disponible."
-        guard isPlaceholder else { return }
-        
-        isLoadingDescription = true
+        if isPlaceholder {
+            isLoadingDescription = true
+        }
         
         do {
-            if let description = try await apiService.fetchBookDescription(workKey: workKey) {
+            let workInfo = try await apiService.fetchWorkDetail(workKey: workKey)
+            
+            if !workInfo.coverIDs.isEmpty {
+                var orderedIDs: [Int] = []
+                if let mainCoverId = book.coverId, mainCoverId > 0 {
+                    orderedIDs.append(mainCoverId)
+                }
+                for id in workInfo.coverIDs where !orderedIDs.contains(id) {
+                    orderedIDs.append(id)
+                }
+                let urls = orderedIDs.prefix(6).compactMap {
+                    URL(string: "https://covers.openlibrary.org/b/id/\($0)-M.jpg")
+                }
+                if urls.count > self.coverURLs.count {
+                    self.coverURLs = urls
+                }
+            }
+            
+            if isPlaceholder, let description = workInfo.description {
                 book.synopsis = description
                 if book.isFavorite {
                     let service = BookService(context: modelContext)
@@ -41,10 +72,55 @@ class BookDetailViewModel {
                 }
             }
         } catch {
-            // Conservamos la sinopsis actual si falla la red
+            // Conservamos la portada y sinopsis actuales si falla la red
         }
         
         isLoadingDescription = false
+    }
+    
+    func openAuthorSheet() {
+        isAuthorSheetPresented = true
+        Task {
+            await loadAuthorDetailIfNeeded()
+        }
+    }
+    
+    func loadAuthorDetailIfNeeded() async {
+        guard !hasLoadedAuthor else { return }
+        hasLoadedAuthor = true
+        
+        guard let firstAuthorKey = book.authorKeys?.first, !firstAuthorKey.isEmpty else {
+            authorDetail = AuthorDetail(
+                authorKey: "",
+                name: book.author,
+                personalName: nil,
+                birthDate: nil,
+                deathDate: nil,
+                bio: nil,
+                photoIDs: []
+            )
+            return
+        }
+        
+        isLoadingAuthor = true
+        do {
+            let detail = try await apiService.fetchAuthorDetail(
+                authorKey: firstAuthorKey,
+                fallbackName: book.author
+            )
+            authorDetail = detail
+        } catch {
+            authorDetail = AuthorDetail(
+                authorKey: firstAuthorKey,
+                name: book.author,
+                personalName: nil,
+                birthDate: nil,
+                deathDate: nil,
+                bio: nil,
+                photoIDs: []
+            )
+        }
+        isLoadingAuthor = false
     }
     
     func toggleFavoritePersistence() {
@@ -54,32 +130,14 @@ class BookDetailViewModel {
         
         if newFavoriteState {
             if service.searchBook(title: book.title)?.isEmpty ?? true {
-                let persistedCopy = Book(
-                    id: book.id,
-                    title: book.title,
-                    author: book.author,
-                    synopsis: book.synopsis,
-                    isFavorite: true,
-                    coverURLString: book.coverURLString,
-                    workKey: book.workKey
-                )
+                let persistedCopy = book.detachedCopy(isFavoriteOverride: true)
                 service.saveBook(book: persistedCopy)
             }
         } else {
-            // Si self.book es una instancia administrada por SwiftData, creamos una copia en memoria
-            // antes de borrarla del contexto para que la vista actual nunca lea un objeto eliminado.
-            let detachedCopy = Book(
-                id: book.id,
-                title: book.title,
-                author: book.author,
-                synopsis: book.synopsis,
-                isFavorite: false,
-                coverURLString: book.coverURLString,
-                workKey: book.workKey
-            )
-            self.book = detachedCopy
+            let detached = book.detachedCopy(isFavoriteOverride: false)
+            self.book = detached
             
-            if let savedBooks = service.searchBook(title: detachedCopy.title) {
+            if let savedBooks = service.searchBook(title: detached.title) {
                 for savedBook in savedBooks {
                     service.removeBook(book: savedBook)
                 }

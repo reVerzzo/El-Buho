@@ -9,7 +9,6 @@ struct DraggedBookSnapshot: Equatable {
 
 struct BookGrid: View {
     @Binding var books: [Book]
-    var indices: [Int] = []
     var isEditing: Bool = false
     var selectedBookIDs: Set<UUID> = []
     var onSelectBook: ((Book) -> Void)? = nil

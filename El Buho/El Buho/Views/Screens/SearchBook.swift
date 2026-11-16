@@ -9,7 +9,6 @@ import SwiftUI
 import SwiftData
 
 struct SearchBookView: View {
-    @Binding var books: [Book]
     @Environment(\.modelContext) private var modelContext
 
     @State private var viewModel = BookSearcher()
@@ -27,7 +26,7 @@ struct SearchBookView: View {
                         Image(systemName: "magnifyingglass")
                             .foregroundColor(AppColors.secondaryText)
                         
-                        TextField("Buscar en OpenLibrary...", text: $viewModel.searchText)
+                        TextField("Buscar...", text: $viewModel.searchText)
                             .foregroundColor(AppColors.primaryText)
                             .autocorrectionDisabled()
                             .submitLabel(.search)
@@ -185,6 +184,6 @@ struct SearchBookView: View {
 
 struct SearchBookView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchBookView(books: .constant([Book.bookTest]))
+        SearchBookView()
     }
 }

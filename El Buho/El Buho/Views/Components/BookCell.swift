@@ -16,11 +16,15 @@ struct BookCell: View {
     var body: some View {
         VStack(spacing: 6) {
             ZStack(alignment: .topTrailing) {
-                coverView
+                Color.clear
                     .frame(height: 140)
                     .frame(maxWidth: .infinity)
-                    .clipped()
-                    .cornerRadius(8)
+                    .overlay {
+                        CachedCoverImage(url: coverURL, contentMode: .fill) {
+                            placeholderCover
+                        }
+                    }
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
                             .stroke(isSelected ? AppColors.accent : Color.clear, lineWidth: 3)
@@ -50,33 +54,6 @@ struct BookCell: View {
         }
     }
     
-    @ViewBuilder
-    private var coverView: some View {
-        if let coverURL {
-            AsyncImage(url: coverURL) { phase in
-                switch phase {
-                case .empty:
-                    Rectangle()
-                        .fill(AppColors.accent.opacity(0.25))
-                        .overlay(
-                            ProgressView()
-                                .tint(AppColors.accent)
-                        )
-                case .success(let image):
-                    image
-                        .resizable()
-                        .scaledToFill()
-                case .failure:
-                    placeholderCover
-                @unknown default:
-                    placeholderCover
-                }
-            }
-        } else {
-            placeholderCover
-        }
-    }
-    
     private var placeholderCover: some View {
         Rectangle()
             .fill(AppColors.accent.opacity(0.8))
@@ -85,14 +62,5 @@ struct BookCell: View {
                     .foregroundColor(AppColors.background)
                     .font(.title)
             )
-    }
-}
-
-struct BookCell_Previews: PreviewProvider {
-    static var previews: some View {
-        ZStack {
-            AppColors.background.ignoresSafeArea()
-            BookCell(title: "Libro de Prueba")
-        }
     }
 }

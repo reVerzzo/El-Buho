@@ -6,29 +6,62 @@ import SwiftUI
 struct RecentBookDTO: Codable, Identifiable, Equatable {
     var id: UUID
     var title: String
+    var subtitle: String?
     var author: String
     var synopsis: String
     var coverURLString: String?
     var workKey: String?
+    var firstPublishYear: Int?
+    var coverId: Int?
+    var authorKeys: [String]?
+    var ratingsAverage: Double?
+    var ratingsCount: Int?
+    var numberOfPages: Int?
+    var publishers: [String]?
+    var isPublicScan: Bool?
+    var ebookAccess: String?
+    var iaIdentifiers: [String]?
     
     init(from book: Book) {
         self.id = book.id
         self.title = book.title
+        self.subtitle = book.subtitle
         self.author = book.author
         self.synopsis = book.synopsis
         self.coverURLString = book.coverURLString
         self.workKey = book.workKey
+        self.firstPublishYear = book.firstPublishYear
+        self.coverId = book.coverId
+        self.authorKeys = book.authorKeys
+        self.ratingsAverage = book.ratingsAverage
+        self.ratingsCount = book.ratingsCount
+        self.numberOfPages = book.numberOfPages
+        self.publishers = book.publishers
+        self.isPublicScan = book.isPublicScan
+        self.ebookAccess = book.ebookAccess
+        self.iaIdentifiers = book.iaIdentifiers
     }
     
     func toBook() -> Book {
         Book(
             id: id,
             title: title,
+            subtitle: subtitle,
             author: author,
             synopsis: synopsis,
             isFavorite: false,
             coverURLString: coverURLString,
-            workKey: workKey
+            workKey: workKey,
+            firstPublishYear: firstPublishYear,
+            coverId: coverId,
+            authorKeys: authorKeys,
+            ratingsAverage: ratingsAverage,
+            ratingsCount: ratingsCount,
+            numberOfPages: numberOfPages,
+            publishers: publishers,
+            isPublicScan: isPublicScan,
+            ebookAccess: ebookAccess,
+            iaIdentifiers: iaIdentifiers
         )
     }
 }
@@ -62,8 +95,15 @@ class BookSearcher {
             return
         }
         
+        // Evitamos disparar peticiones de red para 1 sola letra mientras escribe
+        guard cleanQuery.count >= 2 else {
+            errorMessage = nil
+            isLoading = false
+            return
+        }
+        
         searchTask = Task { @MainActor in
-            try? await Task.sleep(for: .milliseconds(400))
+            try? await Task.sleep(for: .milliseconds(450))
             guard !Task.isCancelled else { return }
             await executeSearch(query: cleanQuery)
         }
@@ -134,8 +174,16 @@ class BookSearcher {
             isLoading = false
         } catch is CancellationError {
             // Ignoramos cancelaciones por debounce
+        } catch APIError.noResults {
+            guard !Task.isCancelled else { return }
+            searchResults = []
+            errorMessage = nil
+            isLoading = false
         } catch let error as APIError {
             guard !Task.isCancelled else { return }
+            if case .networkError(let underlying) = error, (underlying as NSError).code == NSURLErrorCancelled {
+                return
+            }
             errorMessage = error.localizedDescription
             isLoading = false
         } catch {

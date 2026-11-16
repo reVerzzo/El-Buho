@@ -10,7 +10,6 @@ import SwiftData
 import UIKit
 
 struct FavoriteListView: View {
-    @Binding var books: [Book]
     @Environment(\.modelContext) private var modelContext
 
     @State private var viewModel: FavoriteListViewModel?
@@ -81,8 +80,7 @@ struct FavoriteListView: View {
                                     Task { @MainActor in
                                         viewModel.removeFavorite(
                                             id: snapshot.id,
-                                            title: snapshot.title,
-                                            globalBooks: $books
+                                            title: snapshot.title
                                         )
                                     }
                                 }
@@ -133,7 +131,7 @@ struct FavoriteListView: View {
                     if viewModel.isEditing {
                         ToolbarItem(placement: .navigationBarLeading) {
                             Button(role: .destructive) {
-                                viewModel.removeSelectedFavorites(globalBooks: $books)
+                                viewModel.removeSelectedFavorites()
                             } label: {
                                 Label("Quitar (\(viewModel.selectedBookIDs.count))", systemImage: "trash")
                                     .foregroundColor(viewModel.selectedBookIDs.isEmpty ? AppColors.secondaryText : .red)
@@ -162,7 +160,7 @@ struct FavoriteListView: View {
                 if viewModel == nil {
                      viewModel = FavoriteListViewModel(modelContext: modelContext)
                 }
-                viewModel?.loadFavoritesFromDatabase(globalBooks: $books)
+                viewModel?.loadFavoritesFromDatabase()
             }
         }
     }

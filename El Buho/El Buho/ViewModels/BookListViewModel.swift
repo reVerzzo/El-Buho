@@ -3,6 +3,8 @@ import Observation
 import SwiftData
 
 enum BookCategory: String, CaseIterable, Identifiable, Hashable {
+    case lecturaLibre
+    case mejoresCalificados
     case novela
     case ficcion
     case cienciaFiccion
@@ -18,6 +20,8 @@ enum BookCategory: String, CaseIterable, Identifiable, Hashable {
     
     var displayName: String {
         switch self {
+        case .lecturaLibre: return "Libros para leer"
+        case .mejoresCalificados: return "Mejores calificados"
         case .novela: return "Novela"
         case .ficcion: return "Ficción"
         case .cienciaFiccion: return "Ciencia ficción"
@@ -33,6 +37,8 @@ enum BookCategory: String, CaseIterable, Identifiable, Hashable {
     
     var querySlug: String {
         switch self {
+        case .lecturaLibre: return "lectura_libre"
+        case .mejoresCalificados: return "mejores_calificados"
         case .novela: return "novela"
         case .ficcion: return "ficcion"
         case .cienciaFiccion: return "ciencia_ficcion"
@@ -45,11 +51,21 @@ enum BookCategory: String, CaseIterable, Identifiable, Hashable {
         case .romance: return "romance"
         }
     }
+    
+    var homeCarouselLimit: Int {
+        self == .mejoresCalificados ? 20 : 10
+    }
 }
 
 @MainActor
 @Observable
 class BookListViewModel {
+    private static var globalCategoryCache: [String: [Book]] = [:]
+    private static let diskCacheURL: URL = {
+        let base = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
+        return base.appendingPathComponent("ElBuhoCatalogCache_v1.json")
+    }()
+    
     var booksByCategory: [String: [Book]] = [:]
     var loadingCategories: Set<String> = []
     var isLoading: Bool = false
@@ -57,6 +73,16 @@ class BookListViewModel {
     
     private let apiService = OpenLibraryService()
     private var hasLoadedInitial: Bool = false
+    
+    init() {
+        if !Self.globalCategoryCache.isEmpty {
+            self.booksByCategory = Self.globalCategoryCache
+            self.hasLoadedInitial = true
+        } else if let diskCached = Self.loadCatalogFromDisk(), !diskCached.isEmpty {
+            self.booksByCategory = diskCached
+            Self.globalCategoryCache = diskCached
+        }
+    }
     
     func books(for category: BookCategory) -> [Book]? {
         booksByCategory[category.querySlug]
@@ -66,20 +92,21 @@ class BookListViewModel {
         loadingCategories.contains(category.querySlug)
     }
     
-    func loadBooksIfNeeded(modelContext: ModelContext, onSuccess: @escaping ([Book]) -> Void) async {
+    func loadBooksIfNeeded(modelContext: ModelContext) async {
         guard !hasLoadedInitial else { return }
         hasLoadedInitial = true
-        await fetchInitialCategories(modelContext: modelContext, onSuccess: onSuccess)
+        await fetchInitialCategories(modelContext: modelContext)
     }
     
-    func retry(modelContext: ModelContext, onSuccess: @escaping ([Book]) -> Void) async {
+    func retry(modelContext: ModelContext) async {
         hasLoadedInitial = true
         booksByCategory.removeAll()
+        Self.globalCategoryCache.removeAll()
         loadingCategories.removeAll()
-        await fetchInitialCategories(modelContext: modelContext, onSuccess: onSuccess)
+        await fetchInitialCategories(modelContext: modelContext)
     }
     
-    func loadCategoryIfNeeded(_ category: BookCategory, modelContext: ModelContext, onSuccess: @escaping ([Book]) -> Void) async {
+    func loadCategoryIfNeeded(_ category: BookCategory, modelContext: ModelContext) async {
         let slug = category.querySlug
         guard booksByCategory[slug] == nil, !loadingCategories.contains(slug) else { return }
         
@@ -89,25 +116,33 @@ class BookListViewModel {
         do {
             let books = try await apiService.fetchBooksByCategory(
                 querySlug: slug,
-                limit: 16,
-                maxCount: 10
+                limit: category == .mejoresCalificados ? 32 : 14,
+                maxCount: category.homeCarouselLimit
             )
             for book in books where favoriteTitles.contains(book.title) {
                 book.isFavorite = true
             }
             booksByCategory[slug] = books
+            Self.globalCategoryCache[slug] = books
+            Self.saveCatalogToDisk(Self.globalCategoryCache)
             loadingCategories.remove(slug)
-            onSuccess(allCachedBooks)
         } catch {
             loadingCategories.remove(slug)
         }
     }
     
-    private func fetchInitialCategories(modelContext: ModelContext, onSuccess: @escaping ([Book]) -> Void) async {
-        isLoading = true
+    private func fetchInitialCategories(modelContext: ModelContext) async {
+        isLoading = booksByCategory.isEmpty
         errorMessage = nil
         
         let initialCategories = Array(BookCategory.allCases.prefix(3))
+            .filter { booksByCategory[$0.querySlug] == nil }
+        
+        guard !initialCategories.isEmpty else {
+            isLoading = false
+            return
+        }
+        
         for category in initialCategories {
             loadingCategories.insert(category.querySlug)
         }
@@ -118,12 +153,14 @@ class BookListViewModel {
         await withTaskGroup(of: (BookCategory, Result<[Book], Error>).self) { group in
             for category in initialCategories {
                 let slug = category.querySlug
+                let maxItems = category.homeCarouselLimit
+                let requestLimit = category == .mejoresCalificados ? 32 : 14
                 group.addTask {
                     do {
                         let books = try await self.apiService.fetchBooksByCategory(
                             querySlug: slug,
-                            limit: 16,
-                            maxCount: 10
+                            limit: requestLimit,
+                            maxCount: maxItems
                         )
                         return (category, .success(books))
                     } catch {
@@ -141,6 +178,7 @@ class BookListViewModel {
                         book.isFavorite = true
                     }
                     booksByCategory[slug] = books
+                    Self.globalCategoryCache[slug] = books
                     isLoading = false
                 case .failure(let error):
                     if firstError == nil {
@@ -156,17 +194,37 @@ class BookListViewModel {
             return
         }
         
-        onSuccess(allCachedBooks)
+        Self.saveCatalogToDisk(Self.globalCategoryCache)
         isLoading = false
-    }
-    
-    private var allCachedBooks: [Book] {
-        BookCategory.allCases.compactMap { booksByCategory[$0.querySlug] }.flatMap { $0 }
     }
     
     private func fetchFavoriteTitles(modelContext: ModelContext) -> Set<String> {
         let dbService = BookService(context: modelContext)
         let savedFavorites = dbService.fetchBooks() ?? []
         return Set(savedFavorites.map(\.title))
+    }
+    
+    private static func loadCatalogFromDisk() -> [String: [Book]]? {
+        guard let data = try? Data(contentsOf: diskCacheURL),
+              let decoded = try? JSONDecoder().decode([String: [RecentBookDTO]].self, from: data) else {
+            return nil
+        }
+        var result: [String: [Book]] = [:]
+        for (slug, dtos) in decoded where !dtos.isEmpty {
+            result[slug] = dtos.map { $0.toBook() }
+        }
+        return result
+    }
+    
+    private static func saveCatalogToDisk(_ catalog: [String: [Book]]) {
+        var dtoDict: [String: [RecentBookDTO]] = [:]
+        for (slug, books) in catalog {
+            dtoDict[slug] = books.map { RecentBookDTO(from: $0) }
+        }
+        guard let data = try? JSONEncoder().encode(dtoDict) else { return }
+        let targetURL = diskCacheURL
+        Task.detached(priority: .background) {
+            try? data.write(to: targetURL, options: .atomic)
+        }
     }
 }

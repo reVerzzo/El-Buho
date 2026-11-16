@@ -22,7 +22,9 @@ struct EditorialBookCard: View {
                 .frame(height: 255)
                 .frame(maxWidth: .infinity)
                 .overlay {
-                    coverView
+                    CachedCoverImage(url: book.coverURL, contentMode: .fill) {
+                        placeholderCover
+                    }
                 }
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .shadow(color: .black.opacity(0.4), radius: 6, x: 0, y: 4)
@@ -33,33 +35,6 @@ struct EditorialBookCard: View {
                 .lineLimit(2)
                 .multilineTextAlignment(.leading)
                 .frame(maxWidth: .infinity, minHeight: 40, alignment: .topLeading)
-        }
-    }
-    
-    @ViewBuilder
-    private var coverView: some View {
-        if let coverURL = book.coverURL {
-            AsyncImage(url: coverURL) { phase in
-                switch phase {
-                case .empty:
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(AppColors.accent.opacity(0.2))
-                        .overlay(
-                            ProgressView()
-                                .tint(AppColors.accent)
-                        )
-                case .success(let image):
-                    image
-                        .resizable()
-                        .scaledToFill()
-                case .failure:
-                    placeholderCover
-                @unknown default:
-                    placeholderCover
-                }
-            }
-        } else {
-            placeholderCover
         }
     }
     
