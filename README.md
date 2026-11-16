@@ -3,6 +3,7 @@
 1. Perez Hernandez Uriel Alexander
 2. Corona Baez Fabrizzio Alessandro
 ## Descripción del Proyecto
+El Búho es un prototipo de aplicación móvil diseñado para ofrecer a los amantes de la lectura una experiencia intuitiva, moderna y organizada en la búsqueda, exploración y gestión de su catálogo literario. La interfaz prioriza la accesibilidad visual, permitiendo a los usuarios navegar rápidamente entre recomendaciones, realizar búsquedas precisas y acceder a información detallada sobre obras y autores.
 
 ---
 
