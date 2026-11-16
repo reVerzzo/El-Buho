@@ -37,7 +37,7 @@ Al tocar cualquier libro en las pantallas anteriores, el usuario accede a esta v
 Al tocar en el nombre del autor se despliega un pop-up que muestra una biografía corta del autor del libro.
 <img width="736" height="1600" alt="image" src="https://github.com/user-attachments/assets/08ccb603-362c-4ede-bd38-f5bf01e8f94b" />
 
-=======
+---
 
 # Guía de Accesibilidad para Wireframes
 
@@ -107,4 +107,32 @@ A continuación se detalla la configuración de accesibilidad para cada elemento
     *   **Configuración:** Configurar como `Texto estático` (`.staticText`).
     *   **VoiceOver dirá:** *(Comenzará a leer en voz alta el contenido completo de la sinopsis sin añadir palabras extra).*
 
+---
 
+## Guía de Instalación
+
+Para compilar y ejecutar el prototipo en un entorno de desarrollo local, necesitas un equipo con **macOS** y **Xcode 15 o superior**. Esto es indispensable porque el código utiliza frameworks introducidos en iOS 17.
+
+**Pasos para la instalación**
+
+1. **Clonar el repositorio**
+  * Abre la terminal y ejecuta el siguiente comando de Git para descargar el código fuente localmente:
+  * `git clone https://github.com/reVerzzo/El-Buho.git`
+  * `cd El-Buho`
+  * *(Verificación: El comando `ls` debería mostrar la estructura del proyecto, incluyendo el archivo `.xcodeproj`).*
+
+2. **Abrir el proyecto en Xcode**
+  * Desde la misma terminal, ejecuta:
+  * `open ElBuho.xcodeproj`
+  * También puedes abrir el archivo manualmente haciendo doble clic sobre él en Finder. *(Verificación: Xcode se lanzará y el panel izquierdo "Project Navigator" mostrará la estructura de carpetas).*
+
+3. **Configurar firma (Sólo si usas un dispositivo físico)**
+  * Si vas a ejecutar la aplicación en tu propio iPhone en lugar de un simulador:
+    - Haz clic en el nodo raíz del proyecto ("El Buho") en el panel izquierdo.
+    - Ve a la pestaña **Signing & Capabilities**.
+    - En el apartado **Team**, selecciona tu cuenta de Apple ID.
+  * *(Verificación: El mensaje de error rojo de "Signing requires a development team" deberá desaparecer).*
+
+4. **Compilar y ejecutar**
+  * En la barra superior central de Xcode, selecciona un dispositivo de destino que ejecute al menos iOS 17 (por ejemplo, "iPhone 15 Pro").
+  * Haz clic en el botón de reproducción (Play) o presiona `Cmd + R` para construir el proyecto. *(Verificación: El simulador se iniciará, verás el mensaje "Build Succeeded" y la aplicación cargará mostrando la pantalla principal de "Inicio").*
