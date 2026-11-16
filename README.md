@@ -3,42 +3,41 @@
 1. Perez Hernandez Uriel Alexander
 2. Corona Baez Fabrizzio Alessandro
 ## Descripción del Proyecto
+El Búho es un prototipo de aplicación móvil diseñado para ofrecer a los amantes de la lectura una experiencia intuitiva, moderna y organizada en la búsqueda, exploración y gestión de su catálogo literario. La interfaz prioriza la accesibilidad visual, permitiendo a los usuarios navegar rápidamente entre recomendaciones, realizar búsquedas precisas y acceder a información detallada sobre obras y autores.
 
-Este proyecto ilustra el flujo de usuario principal de la aplicación, desde la autenticación del usuario hasta la visualización de los detalles de un libro específico.
 ---
 
 ## Flujo de Usuario y Pantallas
 
 A continuación se detalla el recorrido principal del usuario dentro de la aplicación:
 
-### 1. Inicio de Sesión (Login)
-La pantalla de bienvenida donde los usuarios existentes pueden acceder a su cuenta. Incluye opciones para inicio de sesión tradicional (correo y contraseña) y métodos de inicio de sesión social (Apple/Google).
-
-
-### 2. Registro
-Si el usuario no tiene cuenta, puede acceder a esta pantalla desde el Login para crear una nueva proporcionando sus datos básicos.
-
-
-### 3. Pantalla Principal (Lista de Libros)
+### 1. Pantalla Principal (Lista de Libros)
 Una vez autenticado, el usuario llega al "Home", donde se presenta una cuadrícula con el catálogo de libros disponibles. Cuenta con una barra de navegación inferior para acceder rápidamente a las secciones clave de la app.
+<img width="736" height="1600" alt="inicio" src="https://github.com/user-attachments/assets/455e9b94-34fb-43bb-8e5f-eee795b3fb54" />
+
+#### 1.1 Secciones del incio.
+Al tocar en el título de la seccioón del inicio se despliega una lista de libros relacionados.
+<img width="736" height="1600" alt="image" src="https://github.com/user-attachments/assets/7328795b-dd6a-45e1-ab4f-35daeed24951" />
 
 
-### 4. Búsqueda
+### 2. Búsqueda
 Accesible desde la barra de navegación inferior. Permite a los usuarios buscar títulos o autores específicos de manera rápida, mostrando resultados filtrados en formato de cuadrícula.
+<img width="736" height="1600" alt="image" src="https://github.com/user-attachments/assets/5aa0e16a-7e6e-4cff-839f-e3f981ec3ffd" />
+<img width="736" height="1600" alt="image" src="https://github.com/user-attachments/assets/df649f9c-d112-4d1c-b028-db947469a398" />
 
-
-### 5. Favoritos
+### 3. Favoritos
 Sección dedicada donde los usuarios pueden consultar los libros que han marcado como favoritos para leerlos más tarde o tenerlos a mano.
+<img width="736" height="1600" alt="image" src="https://github.com/user-attachments/assets/04e92dd4-2c3b-4bcf-8d15-7df9dbedcfad" />
 
-### 6. Detalle del Libro
-Al tocar cualquier libro en las pantallas anteriores, el usuario accede a esta vista. Muestra la portada en gran tamaño, el título, el autor, una sinopsis detallada y los llamados a la acción (como "Comprar" o "Añadir a Favoritos").
+### 4. Detalle del Libro
+Al tocar cualquier libro en las pantallas anteriores, el usuario accede a esta vista. Muestra la portada en gran tamaño, el título, el autor, una sinopsis detallada y los llamados a la acción ("Añadir a Favoritos").
+<img width="736" height="1600" alt="image" src="https://github.com/user-attachments/assets/612436ba-45b5-44e0-b254-e290d1528a62" />
 
-### 7. Perfil de Usuario
-Accesible desde la esquina superior derecha de la pantalla principal. Aquí el usuario puede gestionar su información personal, correo electrónico y cerrar sesión.
+#### 4.1 Pop-up del Autor.
+Al tocar en el nombre del autor se despliega un pop-up que muestra una biografía corta del autor del libro.
+<img width="736" height="1600" alt="image" src="https://github.com/user-attachments/assets/08ccb603-362c-4ede-bd38-f5bf01e8f94b" />
 
-# WireFrame
-![WireFrame](docs/flujo_minimo.jpg)
-=======
+---
 
 # Guía de Accesibilidad para Wireframes
 
@@ -107,3 +106,33 @@ A continuación se detalla la configuración de accesibilidad para cada elemento
 *   **Bloque de descripción (Sinopsis)**
     *   **Configuración:** Configurar como `Texto estático` (`.staticText`).
     *   **VoiceOver dirá:** *(Comenzará a leer en voz alta el contenido completo de la sinopsis sin añadir palabras extra).*
+
+---
+
+## Guía de Instalación
+
+Para compilar y ejecutar el prototipo en un entorno de desarrollo local, necesitas un equipo con **macOS** y **Xcode 15 o superior**. Esto es indispensable porque el código utiliza frameworks introducidos en iOS 17.
+
+**Pasos para la instalación**
+
+1. **Clonar el repositorio**
+  * Abre la terminal y ejecuta el siguiente comando de Git para descargar el código fuente localmente:
+  * `git clone https://github.com/reVerzzo/El-Buho.git`
+  * `cd El-Buho`
+  * *(Verificación: El comando `ls` debería mostrar la estructura del proyecto, incluyendo el archivo `.xcodeproj`).*
+
+2. **Abrir el proyecto en Xcode**
+  * Desde la misma terminal, ejecuta:
+  * `open ElBuho.xcodeproj`
+  * También puedes abrir el archivo manualmente haciendo doble clic sobre él en Finder. *(Verificación: Xcode se lanzará y el panel izquierdo "Project Navigator" mostrará la estructura de carpetas).*
+
+3. **Configurar firma (Sólo si usas un dispositivo físico)**
+  * Si vas a ejecutar la aplicación en tu propio iPhone en lugar de un simulador:
+    - Haz clic en el nodo raíz del proyecto ("El Buho") en el panel izquierdo.
+    - Ve a la pestaña **Signing & Capabilities**.
+    - En el apartado **Team**, selecciona tu cuenta de Apple ID.
+  * *(Verificación: El mensaje de error rojo de "Signing requires a development team" deberá desaparecer).*
+
+4. **Compilar y ejecutar**
+  * En la barra superior central de Xcode, selecciona un dispositivo de destino que ejecute al menos iOS 17 (por ejemplo, "iPhone 15 Pro").
+  * Haz clic en el botón de reproducción (Play) o presiona `Cmd + R` para construir el proyecto. *(Verificación: El simulador se iniciará, verás el mensaje "Build Succeeded" y la aplicación cargará mostrando la pantalla principal de "Inicio").*
