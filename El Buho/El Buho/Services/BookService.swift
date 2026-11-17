@@ -8,14 +8,7 @@
 import Foundation
 import SwiftData
 
-protocol BookServiceProtocol {
-    func fetchBooks() -> [Book]?
-    func saveBook(book: Book)
-    func removeBook(book: Book)
-}
-
-class BookService: BookServiceProtocol {
-
+class BookService {
     private let context: ModelContext
 
     init(context: ModelContext) {
@@ -32,9 +25,7 @@ class BookService: BookServiceProtocol {
                 $0.title == title
             }
         )
-
-        let searchedBook = try? context.fetch(description)
-        return searchedBook
+        return try? context.fetch(description)
     }
     
     func saveBook(book: Book) {
@@ -48,22 +39,6 @@ class BookService: BookServiceProtocol {
     }
 
     private func save() {
-        do {
-            try context.save()
-        } catch {
-            print("Hubo un error")
-        }
+        try? context.save()
     }
-}
-
-struct MockBookService: BookServiceProtocol {
-    func fetchBooks() -> [Book]? {
-        return [
-            Book(title: "La Sombra del Búho", author: "Autor 1", isFavorite: true),
-            Book(title: "El Secreto del Lector", author: "Autor 2", isFavorite: true)
-        ]
-    }
-    
-    func saveBook(book: Book) {}
-    func removeBook(book: Book) {}
 }
